@@ -178,9 +178,7 @@ export default {
 
     perAll: [
       { id: "ADMIN", name: "ادارة" },
-      { id: "SUPER_ADMIN", name: "ادارة عامة" },
-      { id: "VENDOR", name: "صاحب مذخر" },
-      { id: "CUSTOMER", name: "صاحب صيدلية" }
+      { id: "SUPER_ADMIN", name: "ادارة عامة" }
     ],
     editedIndex: -1,
     editedItem: {

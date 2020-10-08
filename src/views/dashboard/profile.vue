@@ -96,7 +96,7 @@ export default {
     save() {
       if (this.password) {
         Axios.put(
-          "account/editpassword?Id=" + this.$store.state.userId,
+          "editpassword?Id=" + this.$store.state.userId,
           {
             password: this.password
           },
