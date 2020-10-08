@@ -39,7 +39,7 @@
     </v-list-item>
     <v-divider class="mb-1" />
     <v-list nav dense v-for="(item, i) in computedItems" :key="i">
-      <v-list-item link :to="item.to">
+      <v-list-item link :to="item.to" color="primary">
         <v-list-item-icon>
           <v-icon>{{item.icon}}</v-icon>
         </v-list-item-icon>
