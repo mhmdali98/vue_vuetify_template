@@ -4,7 +4,7 @@
       fab
       small
       text
-      @click="$vuetify.breakpoint.smAndDown ? setDrawer(!drawer) : $emit('input', !value)"
+      @click="$vuetify.breakpoint.mdAndDown ? setDrawer(!drawer) : $emit('input', !value)"
     >
       <v-icon v-if="value">mdi-view-quilt</v-icon>
       <v-icon v-else>mdi-dots-vertical</v-icon>

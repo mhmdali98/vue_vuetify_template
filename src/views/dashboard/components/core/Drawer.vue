@@ -8,10 +8,12 @@
     mobile-break-point="960"
     app
     width="260"
+    mini-variant-width="85"
     v-bind="$attrs"
-    color="barColor"
+    :color="barColor"
+    :class="barColor"
   >
-    <v-list-item two-line>
+    <v-list-item >
       <v-list-item-content>
         <v-list-item-title class="text-uppercase font-weight-regular">
           <v-row align="center" justify="center">
@@ -19,7 +21,7 @@
               <h4>NAME</h4>
             </v-col>
             <v-col class="text-center">
-              <img width="48px" src="../../../../assets/logoSoft.png" />
+              <img width="26px" src="../../../../assets/logoSoft.png" />
             </v-col>
           </v-row>
         </v-list-item-title>
@@ -29,7 +31,7 @@
     <v-list-item two-line>
       <v-list-item-avatar>
         <img
-          src="https://instagram.fbgw10-1.fna.fbcdn.net/v/t51.2885-15/e35/s320x320/119895866_2804475019652520_1379830073642661297_n.jpg?_nc_ht=instagram.fbgw10-1.fna.fbcdn.net&_nc_cat=100&_nc_ohc=uLK4Jdi1UJ4AX86TIv1&_nc_tp=15&oh=05481074cd6467210cbc065f32c16aaa&oe=5FA7AEF7"
+          src="https://instagram.fnjf5-2.fna.fbcdn.net/v/t51.2885-15/e35/s320x320/119895866_2804475019652520_1379830073642661297_n.jpg?_nc_ht=instagram.fnjf5-2.fna.fbcdn.net&_nc_cat=100&_nc_ohc=5FVQdx0R-GAAX9zyY_e&tp=1&oh=f75c3f32d715fd9c724eb98113bcc722&oe=602E27F7"
         />
       </v-list-item-avatar>
       <v-list-item-content>
@@ -38,8 +40,8 @@
       </v-list-item-content>
     </v-list-item>
     <v-divider class="mb-1" />
-    <v-list nav dense v-for="(item, i) in computedItems" :key="i" rounded>
-      <v-list-item link :to="item.to" color="primary">
+    <v-list nav dense v-for="(item, i) in computedItems" :key="i" shaped :class="$i18n.locale == 'ar'? 'pr-0' : 'pl-0'">
+      <v-list-item link :to="item.to" color="primary lighten-1">
         <v-list-item-icon>
           <v-icon>{{item.icon}}</v-icon>
         </v-list-item-icon>
@@ -72,6 +74,11 @@ export default {
         icon: "mdi-account",
         title: "المستخدمين",
         to: "/admin/users"
+      },
+      {
+        icon: "mdi-cog",
+        title: "الاعدادات",
+        to: "/admin/setting"
       }
     ]
   }),

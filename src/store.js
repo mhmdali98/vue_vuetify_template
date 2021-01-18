@@ -6,7 +6,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    barColor: 'rgba(0, 0, 0, .8), rgba(0, 0, 0, .8)',
+    barColor: '#272727',
     barImage: '',
     drawer: null,
     idToken: localStorage.getItem('tokin'),

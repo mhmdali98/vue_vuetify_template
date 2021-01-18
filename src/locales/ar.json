@@ -1,3 +1,11 @@
 {
-    "avatar": "محمد علي"
+    "avatar": "محمد علي",
+    "ok":"موافق",
+    "setting":{
+        "lang":"اللغة",
+        "returnTODefaultColor":"اعادة الى اللون الافتراضي",
+        "darkMode": "الوضع الليلي",
+        "menuColor":"لون القائمة ",
+        "primaryColor":"اللون الرئيسي"
+    }
 }
