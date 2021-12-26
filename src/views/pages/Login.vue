@@ -4,7 +4,7 @@
       <v-slide-y-transition appear>
         <form v-on:submit.prevent="login">
           <v-card-text class="text-center">
-            <h3 class="">نظام إدارة وأرشفة قسم البرنامج الحكومي</h3>
+            <div class="text-center grey--text body-1 font-weight-light">NAME</div>
 
             <v-text-field
               outlined
@@ -33,6 +33,7 @@
               @click.prevent="login()"
               type="submit"
               large
+              text
               color="primary darken-1"
               ref="sendReply"
             >تسجيل الدخول</v-btn>
@@ -68,8 +69,6 @@ export default {
           username: this.username.replace(/ /g, ""),
           password: this.password
         };
-        // this.$router.push("/admin/dashboard");
-
         axios
           .post("auth", data)
           .then(res => {

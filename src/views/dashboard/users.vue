@@ -40,7 +40,7 @@
                   <v-row>
                     <v-col class="py-0" cols="12" sm="12" md="12">
                       <v-text-field
-                        v-model="editedItem.userName"
+                        v-model="editedItem.username"
                         label="اسم المستخدم"
                         outlined
                         :rules="[rules.required]"
@@ -59,26 +59,20 @@
                     </v-col>
                     <v-col class="py-0" cols="12" sm="12" md="12">
                       <v-text-field
-                        v-model="editedItem.fullName"
-                        label="الاسم الكامل"
+                        onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+                        v-model="editedItem.phone"
+                        label="رقم الهاتف"
                         outlined
-                        :rules="[rules.required]"
+                        :rules="[rules.required, rules.minPhon]"
+                        v-mask="mask"
+                        placeholder="07XX XXX XXXX"
+                        style="direction: ltr"
                       ></v-text-field>
                     </v-col>
+
                     <v-col class="py-0" cols="12" sm="12" md="12">
                       <v-select
-                        v-model="editedItem.ognaizationId"
-                        :items="ognaizationList"
-                        label="اختر القسم"
-                        outlined
-                        item-text="name"
-                        item-value="id"
-                        :rules="[rules.required]"
-                      ></v-select>
-                    </v-col>
-                    <v-col class="py-0" cols="12" sm="12" md="12">
-                      <v-select
-                        v-model="editedItem.roleId"
+                        v-model="editedItem.perID"
                         :items="perAll"
                         label="اختر الصلاحية"
                         outlined
@@ -100,9 +94,10 @@
           </v-dialog>
         </v-toolbar>
       </template>
-      <template v-slot:item.isDeleted="{ item }">
-        <v-chip v-if="!item.isDeleted" color="green" dark>مفعل</v-chip>
-        <v-chip v-if="item.isDeleted">غير مفعل</v-chip>
+      <template v-slot:item.verified="{ item }">
+        <v-chip v-if="item" color="green" dark>مفعل</v-chip>
+
+        <v-chip v-if="!item">غير مفعل</v-chip>
       </template>
       <template v-slot:item.actions="{ item }">
         <v-tooltip bottom>
@@ -113,24 +108,29 @@
               v-if="!item.isDeleted"
               v-bind="attrs"
               v-on="on"
-              >mdi-pencil</v-icon
-            >
+            >mdi-pencil</v-icon>
           </template>
           <span>تعديل</span>
         </v-tooltip>
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
-            <v-icon @click="deleteItem(item)" v-if="!item.isDeleted" v-bind="attrs" v-on="on"
-              >mdi-delete</v-icon
-            >
+            <v-icon
+              @click="deleteItem(item)"
+              v-if="!item.isDeleted"
+              v-bind="attrs"
+              v-on="on"
+            >mdi-delete</v-icon>
           </template>
           <span>الغاء التفعيل</span>
         </v-tooltip>
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
-            <v-icon @click="deleteItem(item)" v-if="item.isDeleted" v-bind="attrs" v-on="on"
-              >mdi-reload</v-icon
-            >
+            <v-icon
+              @click="deleteItem(item)"
+              v-if="item.isDeleted"
+              v-bind="attrs"
+              v-on="on"
+            >mdi-reload</v-icon>
           </template>
           <span>تفعيل</span>
         </v-tooltip>
@@ -145,9 +145,14 @@
 <script>
 import Axios from "axios";
 import Swal from "sweetalert2";
+import { mask } from "vue-the-mask";
 
 export default {
+  directives: {
+    mask
+  },
   data: () => ({
+    mask: "07XX XXX XXXX",
     show1: false,
     rules: {
       required: value => !!value || "مطلوب",
@@ -162,35 +167,32 @@ export default {
       {
         text: "اسم المستخدم",
         align: "start",
-        value: "fullName"
+        value: "name"
       },
-      { text: " اسم الحساب", value: "userName" },
-      { text: " القسم ", value: "ognaizationName" },
-      { text: " الصلاحية", value: "roleName" },
-      { text: "الحالة", value: "isDeleted" },
+      { text: "رقم المستخدم", value: "phoneNumber" },
+      { text: " الصلاحية", value: "role" },
+      { text: "الحالة", value: "verified" },
       { text: "العمليات", value: "actions", sortable: false }
     ],
     desserts: [],
-    ognaizationList: [],
+
     perAll: [
-      { id: 1, name: "ادارة عامة" },
-      { id: 2, name: "مستخدم" }
+      { id: "ADMIN", name: "ادارة" },
+      { id: "SUPER_ADMIN", name: "ادارة عامة" }
     ],
     editedIndex: -1,
     editedItem: {
-      userName: "",
+      username: "",
       password: "",
-      fullName: "",
-      ognaizationId: "",
+      phone: "",
       id: "",
-      roleId: ""
+      perID: ""
     },
     defaultItem: {
-      userName: "",
+      username: "",
       password: "",
-      fullName: "",
-      ognaizationId: "",
-      roleId: ""
+      phone: "",
+      perID: ""
     }
   }),
 
@@ -213,7 +215,13 @@ export default {
   methods: {
     showUsers() {
       this.loading = true;
-      Axios.get("user")
+      Axios.get("users", {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: "Bearer " + this.$store.state.idToken
+        }
+      })
         .then(res => {
           this.loading = false;
           this.desserts = res.data;
@@ -223,17 +231,8 @@ export default {
           this.loading = false;
         });
     },
-    getOrg() {
-      Axios.get("Ognaization")
-        .then(res => {
-          this.ognaizationList = res.data;
-          // console.log(res.data);
-        })
-        .catch(() => {});
-    },
     initialize() {
       this.showUsers();
-      this.getOrg();
     },
 
     editItem(item) {
@@ -246,6 +245,7 @@ export default {
     },
 
     deleteItem(item) {
+      //   const index = this.desserts.indexOf(item);
       Swal.fire({
         title: "هل انت متاكد من العملية  ؟ ",
         text: "",
@@ -257,7 +257,13 @@ export default {
         cancelButtonText: "لا"
       }).then(result => {
         if (result.value) {
-          Axios.delete("user?Id=" + item.id)
+          Axios.delete("users?Id=" + item.id, {
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+              Authorization: "Bearer " + this.$store.state.idToken
+            }
+          })
             .then(() => {
               Swal.fire("تم ", "تمت العملية  بنجاح", "success");
               this.showUsers();
@@ -314,13 +320,24 @@ export default {
             });
           });
       } else if (
-        this.editedItem.userName &&
+        this.editedItem.username &&
         this.editedItem.password &&
-        this.editedItem.fullName &&
-        this.editedItem.roleId &&
-        this.editedItem.ognaizationId
+        this.editedItem.phone &&
+        this.editedItem.perID
       ) {
-        Axios.post("user", this.editedItem)
+        const addData = {
+          name: this.editedItem.username,
+          password: this.editedItem.password,
+          phoneNumber: this.editedItem.phone.replace(/ /g, ""),
+          role: this.editedItem.perID
+        };
+        Axios.post("users", addData, {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: "Bearer " + this.$store.state.idToken
+          }
+        })
           .then(() => {
             this.loadSave = false;
             this.showUsers();
