@@ -29,20 +29,7 @@
     <v-list-item two-line>
       <v-list-item-avatar>
         <img
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-          src="https://instagram.fbgw10-1.fna.fbcdn.net/v/t51.2885-15/e35/s320x320/119895866_2804475019652520_1379830073642661297_n.jpg?_nc_ht=instagram.fbgw10-1.fna.fbcdn.net&_nc_cat=100&_nc_ohc=uLK4Jdi1UJ4AX86TIv1&_nc_tp=15&oh=05481074cd6467210cbc065f32c16aaa&oe=5FA7AEF7"
-=======
-          src="https://instagram.fnjf5-2.fna.fbcdn.net/v/t51.2885-15/e35/s320x320/119895866_2804475019652520_1379830073642661297_n.jpg?_nc_ht=instagram.fnjf5-2.fna.fbcdn.net&_nc_cat=100&_nc_ohc=5FVQdx0R-GAAX9zyY_e&tp=1&oh=f75c3f32d715fd9c724eb98113bcc722&oe=602E27F7"
->>>>>>> parent of 6afc3d2 (df)
-=======
-          src="https://instagram.fnjf5-2.fna.fbcdn.net/v/t51.2885-15/e35/s320x320/119895866_2804475019652520_1379830073642661297_n.jpg?_nc_ht=instagram.fnjf5-2.fna.fbcdn.net&_nc_cat=100&_nc_ohc=5FVQdx0R-GAAX9zyY_e&tp=1&oh=f75c3f32d715fd9c724eb98113bcc722&oe=602E27F7"
->>>>>>> parent of 6afc3d2 (df)
-=======
-          src="https://instagram.fbgw10-1.fna.fbcdn.net/v/t51.2885-15/e35/s320x320/119895866_2804475019652520_1379830073642661297_n.jpg?_nc_ht=instagram.fbgw10-1.fna.fbcdn.net&_nc_cat=100&_nc_ohc=uLK4Jdi1UJ4AX86TIv1&_nc_tp=15&oh=05481074cd6467210cbc065f32c16aaa&oe=5FA7AEF7"
->>>>>>> parent of 90d58a7 (update)
-        />
+          src="https://instagram.fbgw10-1.fna.fbcdn.net/v/t51.2885-15/e35/s320x320/119895866_2804475019652520_1379830073642661297_n.jpg?_nc_ht=instagram.fbgw10-1.fna.fbcdn.net&_nc_cat=100&_nc_ohc=uLK4Jdi1UJ4AX86TIv1&_nc_tp=15&oh=05481074cd6467210cbc065f32c16aaa&oe=5FA7AEF7"/>
       </v-list-item-avatar>
       <v-list-item-content>
         <v-list-item-title>mohammed ali</v-list-item-title>
@@ -84,20 +71,13 @@ export default {
         icon: "mdi-account",
         title: "المستخدمين",
         to: "/admin/users"
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> parent of 6afc3d2 (df)
+
       },
       {
         icon: "mdi-cog",
         title: "الاعدادات",
         to: "/admin/setting"
->>>>>>> parent of 6afc3d2 (df)
-=======
->>>>>>> parent of 90d58a7 (update)
+
       }
     ]
   }),
