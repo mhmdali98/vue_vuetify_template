@@ -17,12 +17,12 @@
     >
       <template v-slot:top>
         <v-toolbar flat>
-          <v-toolbar-title>قائمة المستخدمين</v-toolbar-title>
+          <v-toolbar-title>قائمة الاقسام</v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
           <v-dialog v-model="dialog" max-width="500px">
             <template v-slot:activator="{ on, attrs }">
-              <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">اضافة مستخدم</v-btn>
+              <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">اضافة قسم</v-btn>
             </template>
             <v-card>
               <v-toolbar dark color="primary lighten-1 mb-5">
@@ -40,52 +40,11 @@
                   <v-row>
                     <v-col class="py-0" cols="12" sm="12" md="12">
                       <v-text-field
-                        v-model="editedItem.userName"
-                        label="اسم المستخدم"
+                        v-model="editedItem.name"
+                        label="اسم القسم"
                         outlined
                         :rules="[rules.required]"
                       ></v-text-field>
-                    </v-col>
-                    <v-col class="py-0" cols="12" sm="12" md="12" v-if="editedIndex === -1">
-                      <v-text-field
-                        v-model="editedItem.password"
-                        label="كلمة المرور"
-                        outlined
-                        :rules="[rules.required, rules.min]"
-                        :type="show1 ? 'text' : 'password'"
-                        :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                        @click:append="show1 = !show1"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col class="py-0" cols="12" sm="12" md="12">
-                      <v-text-field
-                        v-model="editedItem.fullName"
-                        label="الاسم الكامل"
-                        outlined
-                        :rules="[rules.required]"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col class="py-0" cols="12" sm="12" md="12">
-                      <v-select
-                        v-model="editedItem.ognaizationId"
-                        :items="ognaizationList"
-                        label="اختر القسم"
-                        outlined
-                        item-text="name"
-                        item-value="id"
-                        :rules="[rules.required]"
-                      ></v-select>
-                    </v-col>
-                    <v-col class="py-0" cols="12" sm="12" md="12">
-                      <v-select
-                        v-model="editedItem.roleId"
-                        :items="perAll"
-                        label="اختر الصلاحية"
-                        outlined
-                        item-text="name"
-                        item-value="id"
-                        :rules="[rules.required]"
-                      ></v-select>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -160,43 +119,28 @@ export default {
     dialog: false,
     headers: [
       {
-        text: "اسم المستخدم",
+        text: "اسم القسم",
         align: "start",
-        value: "fullName"
+        value: "name"
       },
-      { text: " اسم الحساب", value: "userName" },
-      { text: " القسم ", value: "ognaizationName" },
-      { text: " الصلاحية", value: "roleName" },
       { text: "الحالة", value: "isDeleted" },
       { text: "العمليات", value: "actions", sortable: false }
     ],
     desserts: [],
     ognaizationList: [],
-    perAll: [
-      { id: 1, name: "ادارة عامة" },
-      { id: 2, name: "مستخدم" }
-    ],
     editedIndex: -1,
     editedItem: {
-      userName: "",
-      password: "",
-      fullName: "",
-      ognaizationId: "",
+      name: "",
       id: "",
-      roleId: ""
     },
     defaultItem: {
-      userName: "",
-      password: "",
-      fullName: "",
-      ognaizationId: "",
-      roleId: ""
+      name: ""
     }
   }),
 
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? "اضافة مستخدم" : "تعديل المستخدم";
+      return this.editedIndex === -1 ? "اضافة قسم" : "تعديل القسم";
     }
   },
 
@@ -211,9 +155,9 @@ export default {
   },
 
   methods: {
-    showUsers() {
+    getOrg() {
       this.loading = true;
-      Axios.get("user")
+      Axios.get("Ognaization")
         .then(res => {
           this.loading = false;
           this.desserts = res.data;
@@ -223,16 +167,8 @@ export default {
           this.loading = false;
         });
     },
-    getOrg() {
-      Axios.get("Ognaization")
-        .then(res => {
-          this.ognaizationList = res.data;
-          // console.log(res.data);
-        })
-        .catch(() => {});
-    },
+
     initialize() {
-      this.showUsers();
       this.getOrg();
     },
 
@@ -257,10 +193,10 @@ export default {
         cancelButtonText: "لا"
       }).then(result => {
         if (result.value) {
-          Axios.delete("user?Id=" + item.id)
+          Axios.delete("Ognaization?Id=" + item.id)
             .then(() => {
               Swal.fire("تم ", "تمت العملية  بنجاح", "success");
-              this.showUsers();
+              this.getOrg();
             })
             .catch(() => {
               Swal.fire("لم يتم ", "لم تمت العملية  بنجاح", "error");
@@ -285,7 +221,7 @@ export default {
           phoneNumber: this.editedItem.phone.replace(/ /g, ""),
           role: this.editedItem.perID
         };
-        Axios.put("account/edit?id=" + this.editedItem.id, editData, {
+        Axios.put("Ognaization?id=" + this.editedItem.id, editData, {
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
@@ -294,7 +230,7 @@ export default {
         })
           .then(() => {
             this.loadSave = false;
-            this.showUsers();
+            this.getOrg();
             this.close();
             Swal.fire({
               title: "تم تعديل المستخدم",
@@ -320,10 +256,10 @@ export default {
         this.editedItem.roleId &&
         this.editedItem.ognaizationId
       ) {
-        Axios.post("user", this.editedItem)
+        Axios.post("Ognaization", this.editedItem)
           .then(() => {
             this.loadSave = false;
-            this.showUsers();
+            this.getOrg();
             this.close();
             Swal.fire({
               title: "تم اضافة المستخدم",

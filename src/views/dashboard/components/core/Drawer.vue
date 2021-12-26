@@ -18,7 +18,7 @@
         <v-list-item-title class="text-uppercase font-weight-regular">
           <v-row align="center" justify="center">
             <v-col v-if="!expandOnHover" align="center" justify="center" cols="12" md="6">
-              <h4>NAME</h4>
+              <h4>نظام إدارة وأرشفة </h4>
             </v-col>
             <v-col class="text-center">
               <img width="26px" src="../../../../assets/logoSoft.png" />
@@ -31,7 +31,7 @@
     <v-list-item two-line>
       <v-list-item-avatar>
         <img
-          src="https://instagram.fnjf5-2.fna.fbcdn.net/v/t51.2885-15/e35/s320x320/119895866_2804475019652520_1379830073642661297_n.jpg?_nc_ht=instagram.fnjf5-2.fna.fbcdn.net&_nc_cat=100&_nc_ohc=5FVQdx0R-GAAX9zyY_e&tp=1&oh=f75c3f32d715fd9c724eb98113bcc722&oe=602E27F7"
+          src="../../../../assets/user.svg"
         />
       </v-list-item-avatar>
       <v-list-item-content>
@@ -74,6 +74,26 @@ export default {
         icon: "mdi-account",
         title: "المستخدمين",
         to: "/admin/users"
+      },
+       {
+        icon: "mdi-lan",
+        title: "الاقسام",
+        to: "/admin/org"
+      },
+      {
+        icon: "mdi-download ",
+        title: "الكتب الواردة",
+        to: "/admin/inBook"
+      },
+      {
+        icon: "mdi-upload ",
+        title: "الكتب الصادرة",
+        to: "/admin/outBook"
+      },
+       {
+        icon: "mdi-bulletin-board",
+        title: "لوحة الاعلانات",
+        to: "/admin/adBoard"
       },
       {
         icon: "mdi-cog",
